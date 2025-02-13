@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssistiveTouch Menu</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #000000;
+      overflow: hidden;
+    }
+    .assistive-touch-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      user-select: none;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    .assistive-touch-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 250px;
+      height: 250px;
+      background-color: #002244;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .menu-item {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+      flex-direction: column;
+      transition: all 0.3s ease;
+    }
+    .menu-item i {
+      font-size: 20px;
+    }
+    .menu-item span {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .menu-item:nth-child(1) { transform: translate(0, -90px); }
+    .menu-item:nth-child(2) { transform: translate(78px, -45px); }
+    .menu-item:nth-child(3) { transform: translate(78px, 45px); }
+    .menu-item:nth-child(4) { transform: translate(0, 90px); }
+    .menu-item:nth-child(5) { transform: translate(-78px, 45px); }
+    .menu-item:nth-child(6) { transform: translate(-78px, -45px); }
+    .show-menu {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    @media (max-width: 325px) {
+      .assistive-touch-menu {
+        width: 180px;
+        height: 180px;
+      }
+      .menu-item {
+        width: 35px;
+        height: 35px;
+      }
+      .menu-item i {
+        font-size: 14px;
+      }
+      .menu-item span {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img src="/logodbots.jpg" alt="">
+  <div id="assistive-touch-button" class="assistive-touch-button">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div id="assistive-touch-menu" class="assistive-touch-menu">
+    <div class="menu-item" onclick="goToHome()"><i class="fas fa-home"></i><span>Home</span></div>
+    <div class="menu-item" onclick="goToServices()"><i class="fas fa-cogs"></i><span>Services</span></div>
+    <div class="menu-item" onclick="goToAbout()"><i class="fas fa-info-circle"></i><span>About</span></div>
+    <div class="menu-item" onclick="goToContact()"><i class="fas fa-envelope"></i><span>Contact</span></div>
+    <div class="menu-item" onclick="goToSettings()"><i class="fas fa-wrench"></i><span>Settings</span></div>
+    <div class="menu-item" onclick="goToProfile()"><i class="fas fa-user"></i><span>Profile</span></div>
+  </div>
+  <script>
+    const button = document.getElementById('assistive-touch-button');
+    const menu = document.getElementById('assistive-touch-menu');
+    let isMenuOpen = false;
+    let isDragging = false;
+    let offsetX, offsetY;
+    
+    button.addEventListener('click', () => {
+      isMenuOpen = true;
+      menu.classList.add('show-menu');
+      button.style.display = 'none';
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && event.target !== button) {
+        isMenuOpen = false;
+        menu.classList.remove('show-menu');
+        button.style.display = 'flex';
+      }
+    });
+    
+    button.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - button.getBoundingClientRect().left;
+      offsetY = e.clientY - button.getBoundingClientRect().top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        let x = e.clientX - offsetX;
+        let y = e.clientY - offsetY;
+        x = Math.max(0, Math.min(window.innerWidth - 60, x));
+        y = Math.max(0, Math.min(window.innerHeight - 60, y));
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        let x = parseInt(button.style.left);
+        let y = parseInt(button.style.top);
+        
+        if (x < window.innerWidth / 2) {
+          x = 0;
+        } else {
+          x = window.innerWidth - 60;
+        }
+        
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+      }
+    });
+  </script>
+</body>
+</html>

